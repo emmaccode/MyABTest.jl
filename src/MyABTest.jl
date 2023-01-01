@@ -2,10 +2,13 @@ module MyABTest
 using Toolips
 using ToolipsSession
 
+
 global A = 0
 global B = 0
 global A_UN = 0
 global B_UN = 0
+global COUNTER = 0
+global RESULTS = Dict(:A => [], :AN => [], :B => [], :BN => [])
 # welcome to your new toolips project!
 """
 home(c::Connection) -> _
@@ -15,6 +18,14 @@ The home function is served as a route inside of your server by default. To
 """
 function home(c::Connection)
     selected = rand(1:2)
+    global COUNTER += 1
+    if COUNTER > 10
+        push!(RESULTS[:A], A)
+        push!(RESULTS[:AN], A_UN)
+        push!(RESULTS[:B], B)
+        push!(RESULTS[:BN], B_UN)
+        COUNTER = 0
+    end
     if selected == 1
         main = body("mainbod", align = "center")
         newbut = button("newbutA", text = "enter website")
